@@ -10,24 +10,38 @@ func binarySearchBruteForce<T: Comparable>(_ array: [T], _ key: T) -> Int? {
     return nil
 }
 
-func binarySearch<T: Comparable>(_ array: [T], _ key: T) -> Int? {
+func binarySearch(_ array: [Int], _ key: Int) -> Int? {
     var lowIndex = 0
     var hightIndex = array.count - 1
-    var arrayToEvaluate = array
     
     while hightIndex >= lowIndex {
-        let midIndex = (hightIndex - lowIndex)/2
-        if arrayToEvaluate[midIndex] == key {
+        let midIndex = lowIndex + (hightIndex - lowIndex)/2
+        if array[midIndex] == key {
             print("binarySearch found: \(midIndex)")
             return midIndex
-        } else if arrayToEvaluate[midIndex] > key {
+        } else if array[midIndex] > key {
             hightIndex = midIndex - 1
-            arrayToEvaluate = Array(arrayToEvaluate[lowIndex...hightIndex])
-            print("New arrayToEvaluate: \(arrayToEvaluate)")
+            print("New arrayToEvaluate: \(array[lowIndex...hightIndex])")
         } else if array[midIndex] < key {
             lowIndex = midIndex + 1
-            arrayToEvaluate = Array(arrayToEvaluate[lowIndex...hightIndex])
-            print("New arrayToEvaluate: \(arrayToEvaluate)")
+            print("New arrayToEvaluate: \(array[lowIndex...hightIndex])")
+        }
+    }
+    return nil
+}
+
+func binarySearchRecursive(_ array: [Int], _ key: Int, lowIndex: Int, hightIndex: Int) -> Int? {
+    print("New binarySearchRecursive arrayToEvaluate: \(array[lowIndex...hightIndex])")
+    
+    if hightIndex >= lowIndex {
+        let midIndex = lowIndex + (hightIndex - lowIndex)/2
+        if array[midIndex] == key {
+            print("binarySearchRecursive found: \(midIndex)")
+            return midIndex
+        } else if array[midIndex] > key {
+            binarySearchRecursive(array, key, lowIndex: lowIndex, hightIndex: midIndex - 1)
+        } else if array[midIndex] < key {
+            binarySearchRecursive(array, key, lowIndex: midIndex + 1, hightIndex: hightIndex)
         }
     }
     return nil
@@ -51,5 +65,12 @@ measureTime("binarySearchBruteForce") {
 measureTime("binarySearch") {
     let keyIndex = binarySearch(numericArray, 10)
 }
-
+measureTime("binarySearch") {
+    let keyIndex = binarySearchRecursive(
+        numericArray,
+        10,
+        lowIndex: 0,
+        hightIndex: numericArray.count-1
+    )
+}
 
