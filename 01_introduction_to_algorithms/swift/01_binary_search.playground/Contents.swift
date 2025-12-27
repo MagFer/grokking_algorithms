@@ -1,9 +1,9 @@
 import UIKit
 
-func binarySearchBruteForce<T: Comparable>(_ array: [T], _ key: T) -> Int? {
+func linealSearch<T: Comparable>(_ array: [T], _ key: T) -> Int? {
     for index in 0...array.count - 1 {
         if array[index] == key {
-            print("binarySearchBruteForce Index found: \(index)")
+            print("linealSearch Index found: \(index)")
             return index
         }
     }
@@ -16,13 +16,15 @@ func binarySearch(_ array: [Int], _ key: Int) -> Int? {
     
     while hightIndex >= lowIndex {
         let midIndex = lowIndex + (hightIndex - lowIndex)/2
-        if array[midIndex] == key {
+        let arrayNumGuess = array[midIndex]
+        
+        if arrayNumGuess == key {
             print("binarySearch found: \(midIndex)")
             return midIndex
-        } else if array[midIndex] > key {
+        } else if arrayNumGuess > key {
             hightIndex = midIndex - 1
             print("New arrayToEvaluate: \(array[lowIndex...hightIndex])")
-        } else if array[midIndex] < key {
+        } else if arrayNumGuess < key {
             lowIndex = midIndex + 1
             print("New arrayToEvaluate: \(array[lowIndex...hightIndex])")
         }
@@ -58,19 +60,18 @@ func measureTime(_ label: String, block: () -> Void) {
 }
 
 
-let numericArray = [1, 2, 3, 4, 6, 10, 19, 100, 120, 230, 1001]
+let numericArray = [1, 2, 3, 4, 6, 10, 19, 100, 120, 230, 1001, 2000, 2011, 2020]
 measureTime("binarySearchBruteForce") {
-    let keyIndexBruteForce = binarySearchBruteForce(numericArray, 10)
+    let keyIndexBruteForce = linealSearch(numericArray, 120)
 }
 measureTime("binarySearch") {
-    let keyIndex = binarySearch(numericArray, 10)
+    let keyIndex = binarySearch(numericArray, 120)
 }
 measureTime("binarySearch") {
     let keyIndex = binarySearchRecursive(
         numericArray,
-        10,
+        120,
         lowIndex: 0,
         hightIndex: numericArray.count-1
     )
 }
-
