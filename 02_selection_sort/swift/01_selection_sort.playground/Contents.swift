@@ -25,12 +25,9 @@ func selectionSort(numbers: [Int]) -> [Int] {
     var numbersSorted = Array<Int>()
     for _ in 0..<numbers.count {
         if numbersClone.count == 1 {
-            numbersSorted.append(numbersClone[0])
-            numbersClone.remove(at: 0)
-        }
-        else if let smallestNumbersIndex = findSmallestIndex(numbers: numbersClone) {
-            numbersSorted.append(numbersClone[smallestNumbersIndex])
-            numbersClone.remove(at: smallestNumbersIndex)
+            numbersSorted.append(numbersClone.remove(at: 0))
+        } else if let smallestNumberIndex = findSmallestIndex(numbers: numbersClone) {
+            numbersSorted.append(numbersClone.remove(at: smallestNumberIndex))
         }
     }
     return numbersSorted
